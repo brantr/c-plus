@@ -53,5 +53,8 @@ public:
   //also return the corresponding tau
   double find_X(double T, double G, double tau_0, double Cul_Aul, double *tau_out);
 
+  //find the specific intensity in erg cm^-2 s^-1 str^-1
+  //given physical properties of the gas
+  double I_nu(double N_C_plus, double dv, double n_e, double n_H0, double n_H2, double T, double T_bkg);
 };
 #endif //C_PLUS_H

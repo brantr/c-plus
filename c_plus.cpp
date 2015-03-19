@@ -10,7 +10,7 @@ C_Plus::C_Plus(void)
   g = g_u/g_l;  //ratio
   T_star  = 91.25;  //Kelvin
   A_ul    = 2.3e-6; //per second
-  h       = 6.626069e-27;
+  h       = 6.626069e-27; //planck constant in cgs
   nu_C_plus = 1900.537e9; //1900.537 GHz
   lambda_C_plus = 157.74e-4;  //cm
   E_C_plus  = h*nu_C_plus;  //energy in ergs
@@ -81,11 +81,11 @@ double C_Plus::Delta_T_A(double T, double X, double G, double tau0)
   double T_exc = T_ex(T,X,G);
   return (T_star/(exp(T_star/T_exc)-1) - T_star*G)*(1-exp(-tau));
 }
-double C_Plus::find_X(double T, double G, double tau_0, double Cul_Aul, double *tau_out)
+double C_Plus::find_X(double T, double G, double tau0, double Cul_Aul, double *tau_out)
 {
   //iterative function to find self-consistent X and tau
   //returns X, but provides tau as well
-  double tau = tau_0;
+  double tau = tau0;
   double tau_prev;
   double beta = beta_lvg(tau);
   double X = Cul_Aul/beta;
@@ -97,7 +97,7 @@ double C_Plus::find_X(double T, double G, double tau_0, double Cul_Aul, double *
   {
     X_prev = X;
     T_exc = T_ex(T,X,G);          //eqn 13
-    tau   = tau_XG(T,X,G,tau_0);  //eqn 17
+    tau   = tau_XG(T,X,G,tau0);  //eqn 17
     beta  = beta_lvg(tau);        //eqn 5
     X     = Cul_Aul/beta;         //eqn 11
     delta_X = fabs((X-X_prev)/X_prev); //iterate
@@ -107,3 +107,22 @@ double C_Plus::find_X(double T, double G, double tau_0, double Cul_Aul, double *
   *tau_out = tau;
   return X;
 }
+double C_Plus::I_nu(double N_C_plus, double dv, double n_e, double n_H0, double n_H2, double T, double T_bkg)
+{
+  //find the specific intensity of the
+  //C+ line in terms of the C+ column density
+  //the line width, the electron, H0, and H2
+  //number densities, the kinetic temperature T,
+  //and the background temperature T
+  double G = G_bkg(T_bkg);
+  double C_ul = C_ul_total(n_e, n_H0, n_H2, T); //collisional de-excitation rate
+  double tau0 = tau_0(N_C_plus, dv);
+  double tau;
+  double X = find_X(T,G,tau0,C_ul/A_ul,&tau);
+  double delta_TA = Delta_T_A(T,X,G,tau0);
+  return delta_TA*dv/(1.43e5);  //Delta I in erg s^-1 cm^-2 sr^-1
+}
+
+
+
+
