@@ -56,5 +56,9 @@ public:
   //find the specific intensity in erg cm^-2 s^-1 str^-1
   //given physical properties of the gas
   double I_nu(double N_C_plus, double dv, double n_e, double n_H0, double n_H2, double T, double T_bkg);
+
+  //optically thin cooling rate
+  //Lambda in erg s^-1 cm^-3
+  double Lambda_C_plus_OT(double n_C_plus, double n_e, double n_H0, double n_H2, double T, double T_bkg);
 };
 #endif //C_PLUS_H

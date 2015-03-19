@@ -123,6 +123,16 @@ double C_Plus::I_nu(double N_C_plus, double dv, double n_e, double n_H0, double 
   return delta_TA*dv/(1.43e5);  //Delta I in erg s^-1 cm^-2 sr^-1
 }
 
+double C_Plus::Lambda_C_plus_OT(double n_C_plus, double n_e, double n_H0, double n_H2, double T, double T_bkg)
+{
+  //erg s^-1 cm^-3
+  double G = G_bkg(T_bkg);
+  double C_ul = C_ul_total(n_e, n_H0, n_H2, T); //collisional de-excitation rate
+  double K   = exp(T_star/T);
+  double CA = C_ul/A_ul;
+  //eqn 47 of goldsmith ea 2012
+  return CA*(1. - G*(K-1.))/(CA*(g+K) + K*(1+G*(1+g))) * n_C_plus * g * A_ul * E_C_plus;
+}
 
 
 
