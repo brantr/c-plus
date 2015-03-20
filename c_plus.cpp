@@ -122,7 +122,16 @@ double C_Plus::I_nu(double N_C_plus, double dv, double n_e, double n_H0, double 
   double delta_TA = Delta_T_A(T,X,G,tau0);
   return delta_TA*dv/(1.43e5);  //Delta I in erg s^-1 cm^-2 sr^-1
 }
-
+double C_Plus::I_FIR(double G0)
+{
+  //far IR intensity from Kaufman eq 1999
+  return 2*1.3*1e-4 * G0;  //Delta I in erg s^-1 cm^-2 sr^-1
+}
+double C_Plus::G0_I_FIR(double I_FIR)
+{
+  //G0 -- far IR intensity relation from Kaufman eq 1999
+  return I_FIR/(2*1.3*1e-4);  //G0; G0~1 is IRSF, G0>1e6 ~ 0.1 pc from O star
+}
 double C_Plus::Lambda_C_plus_OT(double n_C_plus, double n_e, double n_H0, double n_H2, double T, double T_bkg)
 {
   //erg s^-1 cm^-3

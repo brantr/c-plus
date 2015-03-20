@@ -152,5 +152,15 @@ int main(int argc, char **argv)
   }
   fclose(fp);
 
+  //carbon abundance
+  double x_c = 1.4e-4;      //kaufman ea 1999, savage & sembach 1996
+  double n_H = 1.0e2;       //H density (cm^-3)
+  double N_C = 1e21 * x_c;  //Carbon column density at N_H = 10^21 cm^-2
+  double dv  = 1.5;         //km/s, Kaufman 1999 S2.1, Hollenbach& Tielens 99
+  double T = 100;
+  printf("I_nu = %e\n",C.I_nu(N_C,dv,1e-6,n_H,1e-6,T,3));
+  printf("I_nu = %e\n",C.I_nu(N_C,dv,1e-6,1e-6,n_H,1000,3));
+
+
   return 0;
 }

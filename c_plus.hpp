@@ -60,5 +60,11 @@ public:
   //optically thin cooling rate
   //Lambda in erg s^-1 cm^-3
   double Lambda_C_plus_OT(double n_C_plus, double n_e, double n_H0, double n_H2, double T, double T_bkg);
+
+  //G0 -- far IR intensity relation from Kaufman eq 1999
+  double G0_I_FIR(double I_FIR);
+
+  //far IR intensity from Kaufman eq 1999
+  double I_FIR(double G0);
 };
 #endif //C_PLUS_H
