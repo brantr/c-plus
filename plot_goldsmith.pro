@@ -55,6 +55,35 @@ oplot,tau0,T001
 oplot,tau0,T0001
 
 
+lg = 0.1
+bg = 0.12
+rg = 0.03
+tg = 0.03
+
+wx = 1.0 - lg - rg
+wy = 1.0 - bg - tg
+
+set_plot,'ps'
+device,filename='TA_vs_tau0.eps',/encapsulated,/color,bits=8
+device,xsize=5,ysize=5*wx/wy,/inches
+bkg = fltarr(100,100)
+tv,bkg,0,xsize=1,ysize=1,/normal
+plot,[0],[0],xrange=[-2,3.5],yrange=[-2.0,2.0],xstyle=1,ystyle=1,xtitle='log!L10!N !Mt!L0!N',ytitle='log!L10!N !MD T!LA!N [K]',font=1,charsize=1.2,color=255,position=[lg,bg,lg+wx,bg+wy],/normal,/noerase,xthick=3,ythick=3
+
+loadct,13,/silent
+
+oplot,tau0,T100,color=255,thick=5
+oplot,tau0,T10,color=225,thick=5
+oplot,tau0,T1,color=210,thick=5
+oplot,tau0,T01,color=140,thick=5
+oplot,tau0,T001,color=80,thick=5
+oplot,tau0,T0001,color=40,thick=5
+
+loadct,0,/silent
+device,/close
+set_plot,'x'
+
+
 ;figure 5
 fname = "TA_vs_tau.txt"
 ntau0 = read_twelve_arrays(fname,tau100,T100,tau10,T10,tau1,T1,tau01,T01,tau001,T001,tau0001,T0001)
